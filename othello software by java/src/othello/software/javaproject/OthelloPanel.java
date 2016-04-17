@@ -102,63 +102,113 @@ public class OthelloPanel extends JPanel {
 	}
 
 	protected void rulesCheck (DotStatus dotStatus, int i, int j) {
-		if (getSideTableStatus(CheckTable.NORTH, i, j) == TableStatus.NORMAL) {
+		if (getSideTableStatus(CheckSide.NORTH, i, j) == TableStatus.NORMAL) {
 			for (int k = 0 ; j + k < 8 || j - k >= 0 ; k++) {
-				if (getSideTableStatus(CheckTable.SOUTH, i, j + k) == TableStatus.NORMAL) {
+				if (getSideTableStatus(CheckSide.SOUTH, i, j + k) == TableStatus.NORMAL) {
 					break;
 				}
-				if (getSideTableStatus(CheckTable.SOUTH, i, j + k) == TableStatus.FINAL && dot[i][j + k].getDotStatus() != dotStatus) {
+				if (getSideTableStatus(CheckSide.SOUTH, i, j + k) == TableStatus.FINAL && getSideDotStatus(CheckSide.SOUTH, i, j + k) == dotStatus) {
 					table[i][j - 1].setTableStatus(TableStatus.SELECT);
 				}
 			}
 		}
-		if (getSideTableStatus(CheckTable.SOUTH, i, j) == TableStatus.NORMAL) {
+		if (getSideTableStatus(CheckSide.SOUTH, i, j) == TableStatus.NORMAL) {
+			for (int k = 0 ; j + k < 8 || j - k >= 0 ; k++) {
+				if (getSideTableStatus(CheckSide.NORTH, i, j - k) == TableStatus.NORMAL) {
+					break;
+				}
+				if (getSideTableStatus(CheckSide.NORTH, i, j - k) == TableStatus.FINAL && getSideDotStatus(CheckSide.NORTH, i, j - k) == dotStatus) {
+					table[i][j + 1].setTableStatus(TableStatus.SELECT);
+				}
+			}
+		}
+		if (getSideTableStatus(CheckSide.EAST, i, j) == TableStatus.NORMAL) {
+			for (int k = 0 ; i + k < 8 || i - k >= 0 ; k++) {
+				if (getSideTableStatus(CheckSide.WEST, i - k, j) == TableStatus.NORMAL) {
+					break;
+				}
+				if (getSideTableStatus(CheckSide.WEST, i - k, j) == TableStatus.FINAL && getSideDotStatus(CheckSide.WEST, i - k, j) == dotStatus) {
+					table[i + 1][j].setTableStatus(TableStatus.SELECT);
+				}
+			}
+		}
+		if (getSideTableStatus(CheckSide.WEST, i, j) == TableStatus.NORMAL) {
+			for (int k = 0 ; i + k < 8 || i - k >= 0 ; k++) {
+				if (getSideTableStatus(CheckSide.EAST, i + k, j) == TableStatus.NORMAL) {
+					break;
+				}
+				if (getSideTableStatus(CheckSide.EAST, i + k, j) == TableStatus.FINAL && getSideDotStatus(CheckSide.EAST, i + k, j) == dotStatus) {
+					table[i - 1][j].setTableStatus(TableStatus.SELECT);
+				}
+			}
+		}
+		if (getSideTableStatus(CheckSide.NORTHEAST, i, j) == TableStatus.NORMAL) {
 			
 		}
-		if (getSideTableStatus(CheckTable.EAST, i, j) == TableStatus.NORMAL) {
-	
-		}
-		if (getSideTableStatus(CheckTable.WEST, i, j) == TableStatus.NORMAL) {
+		if (getSideTableStatus(CheckSide.NORTHWEST, i, j) == TableStatus.NORMAL) {
 			
 		}
-		if (getSideTableStatus(CheckTable.NORTHEAST, i, j) == TableStatus.NORMAL) {
+		if (getSideTableStatus(CheckSide.SOUTHEAST, i, j) == TableStatus.NORMAL) {
 			
 		}
-		if (getSideTableStatus(CheckTable.NORTHWEST, i, j) == TableStatus.NORMAL) {
-			
-		}
-		if (getSideTableStatus(CheckTable.SOUTHEAST, i, j) == TableStatus.NORMAL) {
-			
-		}
-		if (getSideTableStatus(CheckTable.SOUTHWEST, i, j) == TableStatus.NORMAL) {
+		if (getSideTableStatus(CheckSide.SOUTHWEST, i, j) == TableStatus.NORMAL) {
 			
 		}
 	}
 
-	protected TableStatus getSideTableStatus(CheckTable checkTable, int i, int j) {
-		if (checkTable == CheckTable.NORTH && j > 0) {
+	protected TableStatus getSideTableStatus(CheckSide checkTable, int i, int j) {
+		if (checkTable == CheckSide.NORTH && j > 0) {
 			return table[i][j - 1].getTableStatus();
 		}
-		else if (checkTable == CheckTable.SOUTH && j < 7) {
+		else if (checkTable == CheckSide.SOUTH && j < 7) {
 			return table[i][j + 1].getTableStatus();
 		}
-		else if (checkTable == CheckTable.EAST && i < 7) {
+		else if (checkTable == CheckSide.EAST && i < 7) {
 			return table[i + 1][j].getTableStatus();
 		}
-		else if (checkTable == CheckTable.WEST && i > 0) {
+		else if (checkTable == CheckSide.WEST && i > 0) {
 			return table[i - 1][j].getTableStatus();
 		}
-		else if (checkTable == CheckTable.NORTHEAST && i < 7 && j > 0) {
+		else if (checkTable == CheckSide.NORTHEAST && i < 7 && j > 0) {
 			return table[i + 1][j - 1].getTableStatus();
 		}
-		else if (checkTable == CheckTable.NORTHWEST && i > 0 && j > 0) {
+		else if (checkTable == CheckSide.NORTHWEST && i > 0 && j > 0) {
 			return table[i - 1][j - 1].getTableStatus();
 		}
-		else if (checkTable == CheckTable.SOUTHEAST && i < 7 && j < 7) {
+		else if (checkTable == CheckSide.SOUTHEAST && i < 7 && j < 7) {
 			return table[i + 1][j + 1].getTableStatus();
 		}
-		else if (checkTable == CheckTable.SOUTHWEST && i > 0 && j < 7) {
+		else if (checkTable == CheckSide.SOUTHWEST && i > 0 && j < 7) {
 			return table[i - 1][j + 1].getTableStatus();
+		}
+		else
+			return null;
+	}
+
+	protected DotStatus getSideDotStatus(CheckSide checkDot, int i, int j) {
+		if (checkDot == CheckSide.NORTH && j > 0) {
+			return dot[i][j - 1].getDotStatus();
+		}
+		else if (checkDot == CheckSide.SOUTH && j < 7) {
+			return dot[i][j + 1].getDotStatus();
+		}
+		else if (checkDot == CheckSide.EAST && i < 7) {
+			return dot[i + 1][j].getDotStatus();
+		}
+		else if (checkDot == CheckSide.WEST && i > 0) {
+			return dot[i - 1][j].getDotStatus();
+		}
+		else if (checkDot == CheckSide.NORTHEAST && i < 7 && j > 0) {
+			return dot[i + 1][j - 1].getDotStatus();
+		}
+		else if (checkDot == CheckSide.NORTHWEST && i > 0 && j > 0) {
+			return dot[i - 1][j - 1].getDotStatus();
+		}
+		else if (checkDot == CheckSide.SOUTHEAST && i < 7 && j < 7) {
+			return dot[i + 1][j + 1].getDotStatus();
+		}
+		else if (checkDot == CheckSide.SOUTHWEST && i > 0 && j < 7) {
+			return dot[i - 1][j + 1].getDotStatus();
 		}
 		else
 			return null;
