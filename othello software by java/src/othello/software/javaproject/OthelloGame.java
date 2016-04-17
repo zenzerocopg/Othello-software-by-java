@@ -4,11 +4,18 @@ import javax.swing.SwingUtilities;
 
 public class OthelloGame extends MyFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	
 	OthelloGame(String windtitle) {
 		super(windtitle);
-		// TODO Auto-generated constructor stub
+		
 	}
 
+	// create object to run program
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
@@ -19,14 +26,16 @@ public class OthelloGame extends MyFrame {
 
 	}
 
+	// set GUI
 	protected void createAndShowGUI() {
 		createComponents();
 		setFrameFeatures();
 	}
 
+	// set component 
 	protected void createComponents() {
 		OthelloPanel othelloPanel = new OthelloPanel();
 		this.add(othelloPanel);
 	}
 
-}
+} // end of class 

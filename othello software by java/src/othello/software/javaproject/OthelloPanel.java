@@ -9,25 +9,37 @@ import javax.swing.JPanel;
 
 public class OthelloPanel extends JPanel {
 
+	//generate serial version  uid
+	private static final long serialVersionUID = 1L;
+	// specify value and object
 	static final int WIDTH = 437, HEIGHT = 437;
 	protected Dot[][] dot;
 	protected Table[][] table;
 	protected Table marginTable;
 	protected boolean whiteTurn = true;
 
+	
 	public OthelloPanel() {
+		// create object in array of dot and table 
 		dot = new Dot[8][8];
 		table = new Table[8][8];
 
+		// set option of object dot and table
 		for (int i = 0, x = 48, y; i < 8; i++) {
+			
 			y = 48;
+			
 			for (int j = 0; j < 8; j++) {
 				dot[i][j] = new Dot(x, y);
 				table[i][j] = new Table(x, y);
+				
+				// set star of white dot 
 				if (i == j && (i == 3 || i == 4)) {
 					dot[i][j].setDotStatus(DotStatus.WHITE);
 					table[i][j].setTableStatus(TableStatus.FINAL);
 				}
+				
+				// set star of white dot 
 				if ((i == 3 && j == 4) || (i == 4 && j == 3)) {
 					dot[i][j].setDotStatus(DotStatus.BLACK);
 					table[i][j].setTableStatus(TableStatus.FINAL);
@@ -61,6 +73,7 @@ public class OthelloPanel extends JPanel {
 		}
 		this.createMarginTable(g2d);
 	}
+	
 
 	protected void createMarginTable(Graphics2D g2d) {
 		for (int i = 0, x = 5, y; i < 10; i++) {
@@ -77,7 +90,8 @@ public class OthelloPanel extends JPanel {
 		}
 	}
 
-	protected void checkSelect(DotStatus dotStatus) {
+	protected void checkSelect (DotStatus dotStatus) {
+		
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
 				if (dot[i][j].getDotStatus() != dotStatus) {
@@ -87,7 +101,9 @@ public class OthelloPanel extends JPanel {
 		}
 	}
 
+	
 	protected DotStatus getSideTableStatus(CheckDot checkDot, int i, int j) {
+		
 		if (checkDot == CheckDot.NORTH) {
 			return dot[i][j + 1].getDotStatus();
 		}
@@ -113,6 +129,7 @@ public class OthelloPanel extends JPanel {
 			return dot[i - 1][j - 1].getDotStatus();
 		}
 	}
+	
 
 	@Override
 	public Dimension getPreferredSize() {
