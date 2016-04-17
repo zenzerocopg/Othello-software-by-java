@@ -49,7 +49,22 @@ public class OthelloPanel extends JPanel implements MouseListener {
 			}
 			x += 43;
 		}
-
+	}
+	
+	protected void turnCheck () {
+		for (int i = 0; i < 8; i++) {
+			for (int j = 0; j < 8; j++) {
+				if (table[i][j].getTableStatus() == TableStatus.ACTIVE)
+					break;
+				if (blackTurn) {
+					checkSelect(DotStatus.BLACK);
+					blackTurn = false;
+				} else {
+		
+					blackTurn = true;
+				}
+			}
+		}
 	}
 
 	@Override
@@ -57,14 +72,8 @@ public class OthelloPanel extends JPanel implements MouseListener {
 		super.paint(g);
 		this.setBackground(Color.BLACK);
 		Graphics2D g2d = (Graphics2D) g;
-
-		if (blackTurn) {
-			checkSelect(DotStatus.BLACK);
-			blackTurn = false;
-		} else {
-
-			blackTurn = true;
-		}
+		
+		turnCheck();
 
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
@@ -244,13 +253,31 @@ public class OthelloPanel extends JPanel implements MouseListener {
 
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
-		// TODO Auto-generated method stub
+		for (int i = 0; i < 8; i++) {
+			for (int j = 0; j < 8; j++) {
+				if (arg0.equals(table[i][j])) {
+					if (table[i][j].getTableStatus() == TableStatus.SELECT) {
+						table[i][j].setTableStatus(TableStatus.ACTIVE);
+						//table[i][j].getTable(g2d);
+					}
+				}
+			}
+		}
 
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent arg0) {
-		// TODO Auto-generated method stub
+		for (int i = 0; i < 8; i++) {
+			for (int j = 0; j < 8; j++) {
+				if (arg0.equals(table[i][j])) {
+					if (table[i][j].getTableStatus() == TableStatus.SELECT) {
+						table[i][j].setTableStatus(TableStatus.ACTIVE);
+						repaint();
+					}
+				}
+			}
+		}
 
 	}
 
