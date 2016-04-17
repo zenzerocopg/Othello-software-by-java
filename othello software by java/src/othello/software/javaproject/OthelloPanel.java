@@ -136,30 +136,32 @@ public class OthelloPanel extends JPanel {
 	}
 
 	protected TableStatus getSideTableStatus(CheckTable checkTable, int i, int j) {
-		if (checkTable == CheckTable.NORTH) {
+		if (checkTable == CheckTable.NORTH && j > 0) {
 			return table[i][j - 1].getTableStatus();
 		}
-		else if (checkTable == CheckTable.SOUTH) {
+		else if (checkTable == CheckTable.SOUTH && j < 7) {
 			return table[i][j + 1].getTableStatus();
 		}
-		else if (checkTable == CheckTable.EAST) {
+		else if (checkTable == CheckTable.EAST && i < 7) {
 			return table[i + 1][j].getTableStatus();
 		}
-		else if (checkTable == CheckTable.WEST) {
+		else if (checkTable == CheckTable.WEST && i > 0) {
 			return table[i - 1][j].getTableStatus();
 		}
-		else if (checkTable == CheckTable.NORTHEAST) {
+		else if (checkTable == CheckTable.NORTHEAST && i < 7 && j > 0) {
 			return table[i + 1][j - 1].getTableStatus();
 		}
-		else if (checkTable == CheckTable.NORTHWEST) {
+		else if (checkTable == CheckTable.NORTHWEST && i > 0 && j > 0) {
 			return table[i - 1][j - 1].getTableStatus();
 		}
-		else if (checkTable == CheckTable.SOUTHEAST) {
+		else if (checkTable == CheckTable.SOUTHEAST && i < 7 && j < 7) {
 			return table[i + 1][j + 1].getTableStatus();
 		}
-		else {
+		else if (checkTable == CheckTable.SOUTHWEST && i > 0 && j < 7) {
 			return table[i - 1][j + 1].getTableStatus();
 		}
+		else
+			return null;
 	}
 	
 	@Override
