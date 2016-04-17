@@ -16,7 +16,7 @@ public class OthelloPanel extends JPanel {
 	protected Dot[][] dot;
 	protected Table[][] table;
 	protected Table marginTable;
-	protected boolean whiteTurn = true;
+	protected boolean blackTurn = true;
 
 	
 	public OthelloPanel() {
@@ -57,12 +57,12 @@ public class OthelloPanel extends JPanel {
 		this.setBackground(Color.BLACK);
 		Graphics2D g2d = (Graphics2D) g;
 
-		if (whiteTurn) {
-
-			whiteTurn = false;
+		if (blackTurn) {
+			checkSelect(DotStatus.BLACK);
+			blackTurn = false;
 		} else {
 
-			whiteTurn = true;
+			blackTurn = true;
 		}
 
 		for (int i = 0; i < 8; i++) {
@@ -94,8 +94,8 @@ public class OthelloPanel extends JPanel {
 		
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
-				if (dot[i][j].getDotStatus() != dotStatus) {
-					
+				if (dot[i][j].getDotStatus() != dotStatus && dot[i][j].getDotStatus() != DotStatus.NON) {
+					rulesCheck (dotStatus, i, j);
 				}
 			}
 		}
@@ -103,7 +103,14 @@ public class OthelloPanel extends JPanel {
 
 	protected void rulesCheck (DotStatus dotStatus, int i, int j) {
 		if (getSideTableStatus(CheckTable.NORTH, i, j) == TableStatus.NORMAL) {
-			
+			for (int k = 0 ; j + k < 8 || j - k >= 0 ; k++) {
+				if (getSideTableStatus(CheckTable.SOUTH, i, j + k) == TableStatus.NORMAL) {
+					break;
+				}
+				if (getSideTableStatus(CheckTable.SOUTH, i, j + k) == TableStatus.FINAL && dot[i][j + k].getDotStatus() != dotStatus) {
+					table[i][j - 1].setTableStatus(TableStatus.SELECT);
+				}
+			}
 		}
 		if (getSideTableStatus(CheckTable.SOUTH, i, j) == TableStatus.NORMAL) {
 			
@@ -154,6 +161,7 @@ public class OthelloPanel extends JPanel {
 			return table[i - 1][j + 1].getTableStatus();
 		}
 	}
+	
 	@Override
 	public Dimension getPreferredSize() {
 		return new Dimension(WIDTH, HEIGHT);
