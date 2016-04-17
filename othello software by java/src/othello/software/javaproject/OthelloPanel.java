@@ -109,6 +109,7 @@ public class OthelloPanel extends JPanel {
 				}
 				if (getSideTableStatus(CheckSide.SOUTH, i, j + k) == TableStatus.FINAL && getSideDotStatus(CheckSide.SOUTH, i, j + k) == dotStatus) {
 					table[i][j - 1].setTableStatus(TableStatus.SELECT);
+					break;
 				}
 			}
 		}
@@ -119,40 +120,75 @@ public class OthelloPanel extends JPanel {
 				}
 				if (getSideTableStatus(CheckSide.NORTH, i, j - k) == TableStatus.FINAL && getSideDotStatus(CheckSide.NORTH, i, j - k) == dotStatus) {
 					table[i][j + 1].setTableStatus(TableStatus.SELECT);
+					break;
 				}
 			}
 		}
 		if (getSideTableStatus(CheckSide.EAST, i, j) == TableStatus.NORMAL) {
-			for (int k = 0 ; i + k < 8 || i - k >= 0 ; k++) {
+			for (int k = 0 ; i + k < 8 || i - k >= 0; k++) {
 				if (getSideTableStatus(CheckSide.WEST, i - k, j) == TableStatus.NORMAL) {
 					break;
 				}
 				if (getSideTableStatus(CheckSide.WEST, i - k, j) == TableStatus.FINAL && getSideDotStatus(CheckSide.WEST, i - k, j) == dotStatus) {
 					table[i + 1][j].setTableStatus(TableStatus.SELECT);
+					break;
 				}
 			}
 		}
 		if (getSideTableStatus(CheckSide.WEST, i, j) == TableStatus.NORMAL) {
-			for (int k = 0 ; i + k < 8 || i - k >= 0 ; k++) {
+			for (int k = 0 ; i + k < 8 || i - k >= 0; k++) {
 				if (getSideTableStatus(CheckSide.EAST, i + k, j) == TableStatus.NORMAL) {
 					break;
 				}
 				if (getSideTableStatus(CheckSide.EAST, i + k, j) == TableStatus.FINAL && getSideDotStatus(CheckSide.EAST, i + k, j) == dotStatus) {
 					table[i - 1][j].setTableStatus(TableStatus.SELECT);
+					break;
 				}
 			}
 		}
 		if (getSideTableStatus(CheckSide.NORTHEAST, i, j) == TableStatus.NORMAL) {
-			
+			for (int k = 0 ; j + k < 8 || j - k >= 0 || i + k < 8 || i - k >= 0; k++) {
+				if (getSideTableStatus(CheckSide.SOUTHWEST, i - k, j + k) == TableStatus.NORMAL) {
+					break;
+				}
+				if (getSideTableStatus(CheckSide.SOUTHWEST, i - k, j + k) == TableStatus.FINAL && getSideDotStatus(CheckSide.SOUTHWEST, i - k, j + k) == dotStatus) {
+					table[i + 1][j - 1].setTableStatus(TableStatus.SELECT);
+					break;
+				}
+			}
 		}
 		if (getSideTableStatus(CheckSide.NORTHWEST, i, j) == TableStatus.NORMAL) {
-			
+			for (int k = 0 ; j + k < 8 || j - k >= 0 || i + k < 8 || i - k >= 0; k++) {
+				if (getSideTableStatus(CheckSide.SOUTHEAST, i + k, j + k) == TableStatus.NORMAL) {
+					break;
+				}
+				if (getSideTableStatus(CheckSide.SOUTHEAST, i + k, j + k) == TableStatus.FINAL && getSideDotStatus(CheckSide.SOUTHEAST, i + k, j + k) == dotStatus) {
+					table[i - 1][j - 1].setTableStatus(TableStatus.SELECT);
+					break;
+				}
+			}
 		}
 		if (getSideTableStatus(CheckSide.SOUTHEAST, i, j) == TableStatus.NORMAL) {
-			
+			for (int k = 0 ; j + k < 8 || j - k >= 0 || i + k < 8 || i - k >= 0; k++) {
+				if (getSideTableStatus(CheckSide.NORTHWEST, i - k, j - k) == TableStatus.NORMAL) {
+					break;
+				}
+				if (getSideTableStatus(CheckSide.NORTHWEST, i - k, j - k) == TableStatus.FINAL && getSideDotStatus(CheckSide.NORTHEAST, i - k, j - k) == dotStatus) {
+					table[i + 1][j + 1].setTableStatus(TableStatus.SELECT);
+					break;
+				}
+			}	
 		}
 		if (getSideTableStatus(CheckSide.SOUTHWEST, i, j) == TableStatus.NORMAL) {
-			
+			for (int k = 0 ; j + k < 8 || j - k >= 0 || i + k < 8 || i - k >= 0; k++) {
+				if (getSideTableStatus(CheckSide.NORTHEAST, i + k, j - k) == TableStatus.NORMAL) {
+					break;
+				}
+				if (getSideTableStatus(CheckSide.NORTHEAST, i + k, j - k) == TableStatus.FINAL && getSideDotStatus(CheckSide.NORTHEAST, i + k, j - k) == dotStatus) {
+					table[i - 1][j + 1].setTableStatus(TableStatus.SELECT);
+					break;
+				}
+			}
 		}
 	}
 
