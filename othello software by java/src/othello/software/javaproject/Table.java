@@ -1,0 +1,38 @@
+package othello.software.javaproject;
+
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.geom.Rectangle2D;
+
+public class Table extends Rectangle2D.Double {
+
+	static final int BOCK_SIZE = 40;
+	private TableStatus tableStatus = TableStatus.NORMAL;
+
+	public Table(int x, int y) {
+		super(x, y, BOCK_SIZE, BOCK_SIZE);
+	}
+
+	public TableStatus getTableStatus() {
+		return tableStatus;
+	}
+
+	public void setTableStatus(TableStatus newTableStatus) {
+		tableStatus = newTableStatus;
+	}
+
+	public void getTable(Graphics2D g2d) {
+		if (tableStatus == TableStatus.NORMAL)
+			g2d.setColor(Color.GREEN);
+		if (tableStatus == TableStatus.SELECT)
+			g2d.setColor(Color.BLUE);
+		if (tableStatus == TableStatus.ACTIVE)
+			g2d.setColor(Color.RED);
+		if (tableStatus == TableStatus.FINAL)
+			g2d.setColor(Color.GREEN);
+		if (tableStatus == TableStatus.MARGIN)
+			g2d.setColor(Color.LIGHT_GRAY);
+		g2d.fill(this);
+	}
+
+}
