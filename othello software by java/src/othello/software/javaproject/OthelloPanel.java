@@ -2,11 +2,12 @@ package othello.software.javaproject;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-
 import javax.swing.JPanel;
 
 public class OthelloPanel extends JPanel implements MouseListener {
@@ -19,8 +20,11 @@ public class OthelloPanel extends JPanel implements MouseListener {
 	protected Table[][] table;
 	protected Table marginTable;
 	protected boolean blackTurn = true;
+	int check = 0;
 
 	public OthelloPanel() {
+		addMouseListener(this);
+
 		// create object in array of dot and table
 		dot = new Dot[8][8];
 		table = new Table[8][8];
@@ -38,6 +42,7 @@ public class OthelloPanel extends JPanel implements MouseListener {
 				if (i == j && (i == 3 || i == 4)) {
 					dot[i][j].setDotStatus(DotStatus.WHITE);
 					table[i][j].setTableStatus(TableStatus.FINAL);
+
 				}
 
 				// set star of white dot
@@ -50,18 +55,22 @@ public class OthelloPanel extends JPanel implements MouseListener {
 			x += 43;
 		}
 	}
-	
-	protected void turnCheck () {
+
+	protected void turnCheck() {
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
 				if (table[i][j].getTableStatus() == TableStatus.ACTIVE)
-					break;
-				if (blackTurn) {
-					checkSelect(DotStatus.BLACK);
-					blackTurn = false;
-				} else {
-		
-					blackTurn = true;
+					return;
+				else {
+					if (blackTurn) {
+
+						checkSelect(DotStatus.BLACK);
+
+					} else {
+
+						checkSelect(DotStatus.WHITE);
+
+					}
 				}
 			}
 		}
@@ -72,16 +81,23 @@ public class OthelloPanel extends JPanel implements MouseListener {
 		super.paint(g);
 		this.setBackground(Color.BLACK);
 		Graphics2D g2d = (Graphics2D) g;
-		
 		turnCheck();
-
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
 				table[i][j].getTable(g2d);
 				dot[i][j].getDot(g2d);
 			}
 		}
+
 		this.createMarginTable(g2d);
+
+		/*
+		 * g2d.setColor(Color.WHITE);
+		 * g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+		 * RenderingHints.VALUE_ANTIALIAS_ON); g2d.setFont(new Font("Serif",
+		 * Font.BOLD, 60)); g2d.drawString(Integer.toString(check), 20, HEIGHT /
+		 * 2);
+		 */
 	}
 
 	protected void createMarginTable(Graphics2D g2d) {
@@ -100,7 +116,6 @@ public class OthelloPanel extends JPanel implements MouseListener {
 	}
 
 	protected void checkSelect(DotStatus dotStatus) {
-
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
 				if (dot[i][j].getDotStatus() != dotStatus && dot[i][j].getDotStatus() != DotStatus.NON) {
@@ -251,28 +266,33 @@ public class OthelloPanel extends JPanel implements MouseListener {
 			return null;
 	}
 
-	@Override
-	public void mouseClicked(MouseEvent arg0) {
+	protected void reTable() {
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
-				if (arg0.equals(table[i][j])) {
-					if (table[i][j].getTableStatus() == TableStatus.SELECT) {
-						table[i][j].setTableStatus(TableStatus.ACTIVE);
-						//table[i][j].getTable(g2d);
-					}
+
+				if (table[i][j].getTableStatus() != TableStatus.FINAL) {
+					table[i][j].setTableStatus(TableStatus.NORMAL);
+
 				}
 			}
 		}
-
 	}
 
 	@Override
-	public void mouseEntered(MouseEvent arg0) {
+	public void mouseClicked(MouseEvent arg0) {
+
+		// if mouse click table
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
-				if (arg0.equals(table[i][j])) {
+				if (table[i][j].contains(arg0.getPoint())) {
 					if (table[i][j].getTableStatus() == TableStatus.SELECT) {
 						table[i][j].setTableStatus(TableStatus.ACTIVE);
+						repaint();
+					} else if (table[i][j].getTableStatus() == TableStatus.ACTIVE) {
+						table[i][j].setTableStatus(TableStatus.FINAL);
+						dot[i][j].setDotStatus(DotStatus.BLACK);
+						blackTurn = false;
+						reTable();
 						repaint();
 					}
 				}
@@ -282,20 +302,22 @@ public class OthelloPanel extends JPanel implements MouseListener {
 	}
 
 	@Override
+	public void mouseEntered(MouseEvent arg0) {
+
+	}
+
+	@Override
 	public void mouseExited(MouseEvent arg0) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void mousePressed(MouseEvent arg0) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent arg0) {
-		// TODO Auto-generated method stub
 
 	}
 
