@@ -54,6 +54,7 @@ public class OthelloPanel extends JPanel implements MouseListener {
 			}
 			x += 43;
 		}
+		turnCheck();
 	}
 
 	protected void turnCheck() {
@@ -81,7 +82,6 @@ public class OthelloPanel extends JPanel implements MouseListener {
 		super.paint(g);
 		this.setBackground(Color.BLACK);
 		Graphics2D g2d = (Graphics2D) g;
-		turnCheck();
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
 				table[i][j].getTable(g2d);
@@ -126,8 +126,9 @@ public class OthelloPanel extends JPanel implements MouseListener {
 	}
 
 	protected void rulesCheck(DotStatus dotStatus, int i, int j) {
-		if (getSideTableStatus(CheckSide.NORTH, i, j) == TableStatus.NORMAL) {
-			for (int k = 0; j + k < 8 || j - k >= 0; k++) {
+		if (getSideTableStatus(CheckSide.NORTH, i, j) == TableStatus.NORMAL
+				|| getSideTableStatus(CheckSide.NORTH, i, j) == TableStatus.ACTIVE) {
+			for (int k = 0; j + k < 8 && j > 0; k++) {
 				if (getSideTableStatus(CheckSide.SOUTH, i, j + k) == TableStatus.NORMAL) {
 					break;
 				}
@@ -138,8 +139,9 @@ public class OthelloPanel extends JPanel implements MouseListener {
 				}
 			}
 		}
-		if (getSideTableStatus(CheckSide.SOUTH, i, j) == TableStatus.NORMAL) {
-			for (int k = 0; j + k < 8 || j - k >= 0; k++) {
+		if (getSideTableStatus(CheckSide.SOUTH, i, j) == TableStatus.NORMAL
+				|| getSideTableStatus(CheckSide.SOUTH, i, j) == TableStatus.ACTIVE) {
+			for (int k = 0; j < 7 && j - k >= 0; k++) {
 				if (getSideTableStatus(CheckSide.NORTH, i, j - k) == TableStatus.NORMAL) {
 					break;
 				}
@@ -150,8 +152,9 @@ public class OthelloPanel extends JPanel implements MouseListener {
 				}
 			}
 		}
-		if (getSideTableStatus(CheckSide.EAST, i, j) == TableStatus.NORMAL) {
-			for (int k = 0; i + k < 8 || i - k >= 0; k++) {
+		if (getSideTableStatus(CheckSide.EAST, i, j) == TableStatus.NORMAL
+				|| getSideTableStatus(CheckSide.EAST, i, j) == TableStatus.ACTIVE) {
+			for (int k = 0; i < 7 && i - k >= 0; k++) {
 				if (getSideTableStatus(CheckSide.WEST, i - k, j) == TableStatus.NORMAL) {
 					break;
 				}
@@ -162,8 +165,9 @@ public class OthelloPanel extends JPanel implements MouseListener {
 				}
 			}
 		}
-		if (getSideTableStatus(CheckSide.WEST, i, j) == TableStatus.NORMAL) {
-			for (int k = 0; i + k < 8 || i - k >= 0; k++) {
+		if (getSideTableStatus(CheckSide.WEST, i, j) == TableStatus.NORMAL
+				|| getSideTableStatus(CheckSide.WEST, i, j) == TableStatus.ACTIVE) {
+			for (int k = 0; i + k < 8 && i > 0; k++) {
 				if (getSideTableStatus(CheckSide.EAST, i + k, j) == TableStatus.NORMAL) {
 					break;
 				}
@@ -174,8 +178,9 @@ public class OthelloPanel extends JPanel implements MouseListener {
 				}
 			}
 		}
-		if (getSideTableStatus(CheckSide.NORTHEAST, i, j) == TableStatus.NORMAL) {
-			for (int k = 0; j + k < 8 || j - k >= 0 || i + k < 8 || i - k >= 0; k++) {
+		if (getSideTableStatus(CheckSide.NORTHEAST, i, j) == TableStatus.NORMAL
+				|| getSideTableStatus(CheckSide.NORTHEAST, i, j) == TableStatus.ACTIVE) {
+			for (int k = 0; j + k < 8 && j > 0 && i < 7 && i - k >= 0; k++) {
 				if (getSideTableStatus(CheckSide.SOUTHWEST, i - k, j + k) == TableStatus.NORMAL) {
 					break;
 				}
@@ -186,8 +191,9 @@ public class OthelloPanel extends JPanel implements MouseListener {
 				}
 			}
 		}
-		if (getSideTableStatus(CheckSide.NORTHWEST, i, j) == TableStatus.NORMAL) {
-			for (int k = 0; j + k < 8 || j - k >= 0 || i + k < 8 || i - k >= 0; k++) {
+		if (getSideTableStatus(CheckSide.NORTHWEST, i, j) == TableStatus.NORMAL
+				|| getSideTableStatus(CheckSide.NORTHWEST, i, j) == TableStatus.ACTIVE) {
+			for (int k = 0; j + k < 8 && j > 0 && i + k < 8 && i > 0; k++) {
 				if (getSideTableStatus(CheckSide.SOUTHEAST, i + k, j + k) == TableStatus.NORMAL) {
 					break;
 				}
@@ -198,20 +204,22 @@ public class OthelloPanel extends JPanel implements MouseListener {
 				}
 			}
 		}
-		if (getSideTableStatus(CheckSide.SOUTHEAST, i, j) == TableStatus.NORMAL) {
-			for (int k = 0; j + k < 8 || j - k >= 0 || i + k < 8 || i - k >= 0; k++) {
+		if (getSideTableStatus(CheckSide.SOUTHEAST, i, j) == TableStatus.NORMAL
+				|| getSideTableStatus(CheckSide.SOUTHEAST, i, j) == TableStatus.ACTIVE) {
+			for (int k = 0; j < 7 && j - k >= 0 && i < 7 && i - k >= 0; k++) {
 				if (getSideTableStatus(CheckSide.NORTHWEST, i - k, j - k) == TableStatus.NORMAL) {
 					break;
 				}
 				if (getSideTableStatus(CheckSide.NORTHWEST, i - k, j - k) == TableStatus.FINAL
-						&& getSideDotStatus(CheckSide.NORTHEAST, i - k, j - k) == dotStatus) {
+						&& getSideDotStatus(CheckSide.NORTHWEST, i - k, j - k) == dotStatus) {
 					table[i + 1][j + 1].setTableStatus(TableStatus.SELECT);
 					break;
 				}
 			}
 		}
-		if (getSideTableStatus(CheckSide.SOUTHWEST, i, j) == TableStatus.NORMAL) {
-			for (int k = 0; j + k < 8 || j - k >= 0 || i + k < 8 || i - k >= 0; k++) {
+		if (getSideTableStatus(CheckSide.SOUTHWEST, i, j) == TableStatus.NORMAL
+				|| getSideTableStatus(CheckSide.SOUTHWEST, i, j) == TableStatus.ACTIVE) {
+			for (int k = 0; j < 7 && j - k >= 0 && i + k < 8 && i > 0; k++) {
 				if (getSideTableStatus(CheckSide.NORTHEAST, i + k, j - k) == TableStatus.NORMAL) {
 					break;
 				}
@@ -223,7 +231,135 @@ public class OthelloPanel extends JPanel implements MouseListener {
 			}
 		}
 	}
-
+	
+	public void eatDot (DotStatus dotStatus, int i, int j) {
+		
+		if (getSideTableStatus(CheckSide.NORTH, i, j) == TableStatus.FINAL 
+				&& getSideDotStatus(CheckSide.NORTH, i, j) != dotStatus) {
+			for (int k = 0; j - k >= 0; k++) {
+				if (getSideDotStatus(CheckSide.NORTH, i, j - k) == DotStatus.NON)
+					break;
+				if (getSideDotStatus(CheckSide.NORTH, i, j - k) == dotStatus) {
+					for (int z = 0; j - z >= 0; z++) {
+						dot[i][j - z].setDotStatus(dotStatus);
+						if (getSideDotStatus(CheckSide.NORTH, i, j - z) == dotStatus) {
+							break;
+						}
+					}
+					break;
+				}
+			}	
+		}
+		if (getSideTableStatus(CheckSide.SOUTH, i, j) == TableStatus.FINAL
+				&& getSideDotStatus(CheckSide.SOUTH, i, j) != dotStatus) {
+			for (int k = 0; j + k < 8; k++) {
+				if (getSideDotStatus(CheckSide.SOUTH, i, j + k) == DotStatus.NON) 
+					break;
+				if (getSideDotStatus(CheckSide.SOUTH, i, j + k) == dotStatus)
+					for (int z = 0; j + z < 8; z++) {
+						dot[i][j + z].setDotStatus(dotStatus);
+						if (getSideDotStatus(CheckSide.SOUTH, i, j + z) == dotStatus) {
+							break;
+						}
+					}
+			}
+		}
+		if (getSideTableStatus(CheckSide.EAST, i, j) == TableStatus.FINAL
+				&& getSideDotStatus(CheckSide.EAST, i, j) != dotStatus) {
+			for (int k = 0; i + k < 8; k++) {
+				if (getSideDotStatus(CheckSide.EAST, i + k, j) == DotStatus.NON)
+					break;
+				if (getSideDotStatus(CheckSide.EAST, i + k, j) == dotStatus) {
+					for (int z = 0; i + z < 8; z++) {
+						dot[i + z][j].setDotStatus(dotStatus);
+						if (getSideDotStatus(CheckSide.EAST, i + z, j) == dotStatus) {
+							break;
+						}
+					}
+					break;
+				}
+			}	
+		}
+		if (getSideTableStatus(CheckSide.WEST, i, j) == TableStatus.FINAL
+				&& getSideDotStatus(CheckSide.WEST, i, j) != dotStatus) {
+			for (int k = 0; i - k >= 0; k++) {
+				if (getSideDotStatus(CheckSide.WEST, i - k, j) == DotStatus.NON)
+					break;
+				if (getSideDotStatus(CheckSide.WEST, i - k, j) == dotStatus) {
+					for (int z = 0; i - z >= 0; z++) {
+						dot[i - z][j].setDotStatus(dotStatus);
+						if (getSideDotStatus(CheckSide.WEST, i - z, j) == dotStatus) {
+							break;
+						}
+					}
+					break;
+				}
+			}	
+		}
+		if (getSideTableStatus(CheckSide.NORTHEAST, i, j) == TableStatus.FINAL
+				&& getSideDotStatus(CheckSide.NORTHEAST, i, j) != dotStatus) {
+			for (int k = 0; j - k >= 0 && i + k < 8; k++) {
+				if (getSideDotStatus(CheckSide.NORTHEAST, i + k, j - k) == DotStatus.NON)
+					break;
+				if (getSideDotStatus(CheckSide.NORTHEAST, i + k, j - k) == dotStatus) 
+					for (int z = 0; j - z >= 0 && i + z < 8; z++) {
+						dot[i + z][j - z].setDotStatus(dotStatus);
+						if (getSideDotStatus(CheckSide.NORTHEAST, i + z, j - z) == dotStatus) {
+							break;
+						}
+				}
+			}	
+		}
+		if (getSideTableStatus(CheckSide.NORTHWEST, i, j) == TableStatus.FINAL
+				&& getSideDotStatus(CheckSide.NORTHWEST, i, j) != dotStatus) {
+			for (int k = 0; j - k >= 0 && i - k >= 0; k++) {
+				if (getSideDotStatus(CheckSide.NORTHWEST, i - k, j - k) == DotStatus.NON)
+					break;
+				if (getSideDotStatus(CheckSide.NORTHWEST, i - k, j - k) == dotStatus) {
+					for (int z = 0; j - z >= 0 && i - z >= 0; z++) {
+						dot[i - z][j - z].setDotStatus(dotStatus);
+						if (getSideDotStatus(CheckSide.NORTHWEST, i - z, j - z) == dotStatus) {
+							break;
+						}
+					}
+					break;
+				}
+			}	
+		}
+		if (getSideTableStatus(CheckSide.SOUTHEAST, i, j) == TableStatus.FINAL
+				&& getSideDotStatus(CheckSide.SOUTHEAST, i, j) != dotStatus) {
+			for (int k = 0; j + k < 8 && i + k < 8; k++) {
+				if (getSideDotStatus(CheckSide.SOUTHEAST, i + k, j + k) == DotStatus.NON)
+					break;
+				if (getSideDotStatus(CheckSide.SOUTHEAST, i + k, j + k) == dotStatus) {
+					for (int z = 0; j + z < 8 && i + z < 8; z++) {
+						dot[i + z][j + z].setDotStatus(dotStatus);
+						if (getSideDotStatus(CheckSide.SOUTHEAST, i + z, j + z) == dotStatus) {
+							break;
+						}
+					}
+					break;
+				}
+			}	
+		}
+		if (getSideTableStatus(CheckSide.SOUTHWEST, i, j) == TableStatus.FINAL
+				&& getSideDotStatus(CheckSide.SOUTHWEST, i, j) != dotStatus) {
+			for (int k = 0; i - k >= 0 && j + k < 8; k++) {
+				if (getSideDotStatus(CheckSide.SOUTHWEST, i - k, j + k) == DotStatus.NON)
+					break;
+				if (getSideDotStatus(CheckSide.SOUTHWEST, i - k, j + k) == dotStatus) {
+					for (int z = 0; j + z < 8 && i - z >= 0; z++) {
+						dot[i - z][j + z].setDotStatus(dotStatus);
+						if (getSideDotStatus(CheckSide.SOUTHWEST, i - z, j + z) == dotStatus) {
+							break;
+						}
+					}
+					break;
+				}
+			}	
+		}
+	}
+	
 	protected TableStatus getSideTableStatus(CheckSide checkTable, int i, int j) {
 		if (checkTable == CheckSide.NORTH && j > 0) {
 			return table[i][j - 1].getTableStatus();
@@ -278,6 +414,7 @@ public class OthelloPanel extends JPanel implements MouseListener {
 		}
 	}
 
+
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
 
@@ -285,14 +422,28 @@ public class OthelloPanel extends JPanel implements MouseListener {
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
 				if (table[i][j].contains(arg0.getPoint())) {
+					
 					if (table[i][j].getTableStatus() == TableStatus.SELECT) {
+						if (blackTurn)
+							checkSelect(DotStatus.BLACK);
+						else
+							checkSelect(DotStatus.WHITE);
 						table[i][j].setTableStatus(TableStatus.ACTIVE);
 						repaint();
-					} else if (table[i][j].getTableStatus() == TableStatus.ACTIVE) {
+					} else if (table[i][j].getTableStatus() == TableStatus.ACTIVE) {					
+						if (blackTurn) {
+							dot[i][j].setDotStatus(DotStatus.BLACK);
+							blackTurn = false;
+							eatDot(DotStatus.BLACK, i, j);
+						}
+						else {
+							dot[i][j].setDotStatus(DotStatus.WHITE);
+							blackTurn = true;
+							eatDot(DotStatus.WHITE, i, j);
+						}
 						table[i][j].setTableStatus(TableStatus.FINAL);
-						dot[i][j].setDotStatus(DotStatus.BLACK);
-						blackTurn = false;
 						reTable();
+						turnCheck();
 						repaint();
 					}
 				}
