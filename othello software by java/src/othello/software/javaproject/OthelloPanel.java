@@ -129,7 +129,7 @@ public class OthelloPanel extends JPanel implements MouseListener {
 		if (getSideTableStatus(CheckSide.NORTH, i, j) == TableStatus.NORMAL
 				|| getSideTableStatus(CheckSide.NORTH, i, j) == TableStatus.ACTIVE) {
 			for (int k = 0; j + k < 8 && j > 0; k++) {
-				if (getSideTableStatus(CheckSide.SOUTH, i, j + k) == TableStatus.NORMAL) {
+				if (getSideDotStatus(CheckSide.SOUTH, i, j + k) == DotStatus.NON) {
 					break;
 				}
 				if (getSideTableStatus(CheckSide.SOUTH, i, j + k) == TableStatus.FINAL
@@ -142,7 +142,7 @@ public class OthelloPanel extends JPanel implements MouseListener {
 		if (getSideTableStatus(CheckSide.SOUTH, i, j) == TableStatus.NORMAL
 				|| getSideTableStatus(CheckSide.SOUTH, i, j) == TableStatus.ACTIVE) {
 			for (int k = 0; j < 7 && j - k >= 0; k++) {
-				if (getSideTableStatus(CheckSide.NORTH, i, j - k) == TableStatus.NORMAL) {
+				if (getSideDotStatus(CheckSide.NORTH, i, j + k) == DotStatus.NON) {
 					break;
 				}
 				if (getSideTableStatus(CheckSide.NORTH, i, j - k) == TableStatus.FINAL
@@ -155,7 +155,7 @@ public class OthelloPanel extends JPanel implements MouseListener {
 		if (getSideTableStatus(CheckSide.EAST, i, j) == TableStatus.NORMAL
 				|| getSideTableStatus(CheckSide.EAST, i, j) == TableStatus.ACTIVE) {
 			for (int k = 0; i < 7 && i - k >= 0; k++) {
-				if (getSideTableStatus(CheckSide.WEST, i - k, j) == TableStatus.NORMAL) {
+				if (getSideDotStatus(CheckSide.WEST, i, j + k) == DotStatus.NON) {
 					break;
 				}
 				if (getSideTableStatus(CheckSide.WEST, i - k, j) == TableStatus.FINAL
@@ -168,7 +168,7 @@ public class OthelloPanel extends JPanel implements MouseListener {
 		if (getSideTableStatus(CheckSide.WEST, i, j) == TableStatus.NORMAL
 				|| getSideTableStatus(CheckSide.WEST, i, j) == TableStatus.ACTIVE) {
 			for (int k = 0; i + k < 8 && i > 0; k++) {
-				if (getSideTableStatus(CheckSide.EAST, i + k, j) == TableStatus.NORMAL) {
+				if (getSideDotStatus(CheckSide.EAST, i, j + k) == DotStatus.NON) {
 					break;
 				}
 				if (getSideTableStatus(CheckSide.EAST, i + k, j) == TableStatus.FINAL
@@ -181,7 +181,7 @@ public class OthelloPanel extends JPanel implements MouseListener {
 		if (getSideTableStatus(CheckSide.NORTHEAST, i, j) == TableStatus.NORMAL
 				|| getSideTableStatus(CheckSide.NORTHEAST, i, j) == TableStatus.ACTIVE) {
 			for (int k = 0; j + k < 8 && j > 0 && i < 7 && i - k >= 0; k++) {
-				if (getSideTableStatus(CheckSide.SOUTHWEST, i - k, j + k) == TableStatus.NORMAL) {
+				if (getSideDotStatus(CheckSide.SOUTHWEST, i, j + k) == DotStatus.NON) {
 					break;
 				}
 				if (getSideTableStatus(CheckSide.SOUTHWEST, i - k, j + k) == TableStatus.FINAL
@@ -194,7 +194,7 @@ public class OthelloPanel extends JPanel implements MouseListener {
 		if (getSideTableStatus(CheckSide.NORTHWEST, i, j) == TableStatus.NORMAL
 				|| getSideTableStatus(CheckSide.NORTHWEST, i, j) == TableStatus.ACTIVE) {
 			for (int k = 0; j + k < 8 && j > 0 && i + k < 8 && i > 0; k++) {
-				if (getSideTableStatus(CheckSide.SOUTHEAST, i + k, j + k) == TableStatus.NORMAL) {
+				if (getSideDotStatus(CheckSide.SOUTHEAST, i, j + k) == DotStatus.NON) {
 					break;
 				}
 				if (getSideTableStatus(CheckSide.SOUTHEAST, i + k, j + k) == TableStatus.FINAL
@@ -207,7 +207,7 @@ public class OthelloPanel extends JPanel implements MouseListener {
 		if (getSideTableStatus(CheckSide.SOUTHEAST, i, j) == TableStatus.NORMAL
 				|| getSideTableStatus(CheckSide.SOUTHEAST, i, j) == TableStatus.ACTIVE) {
 			for (int k = 0; j < 7 && j - k >= 0 && i < 7 && i - k >= 0; k++) {
-				if (getSideTableStatus(CheckSide.NORTHWEST, i - k, j - k) == TableStatus.NORMAL) {
+				if (getSideDotStatus(CheckSide.NORTHWEST, i, j + k) == DotStatus.NON) {
 					break;
 				}
 				if (getSideTableStatus(CheckSide.NORTHWEST, i - k, j - k) == TableStatus.FINAL
@@ -220,7 +220,7 @@ public class OthelloPanel extends JPanel implements MouseListener {
 		if (getSideTableStatus(CheckSide.SOUTHWEST, i, j) == TableStatus.NORMAL
 				|| getSideTableStatus(CheckSide.SOUTHWEST, i, j) == TableStatus.ACTIVE) {
 			for (int k = 0; j < 7 && j - k >= 0 && i + k < 8 && i > 0; k++) {
-				if (getSideTableStatus(CheckSide.NORTHEAST, i + k, j - k) == TableStatus.NORMAL) {
+				if (getSideDotStatus(CheckSide.NORTHEAST, i, j + k) == DotStatus.NON) {
 					break;
 				}
 				if (getSideTableStatus(CheckSide.NORTHEAST, i + k, j - k) == TableStatus.FINAL
