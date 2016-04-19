@@ -155,7 +155,7 @@ public class OthelloPanel extends JPanel implements MouseListener {
 		if (getSideTableStatus(CheckSide.EAST, i, j) == TableStatus.NORMAL
 				|| getSideTableStatus(CheckSide.EAST, i, j) == TableStatus.ACTIVE) {
 			for (int k = 0; i < 7 && i - k >= 0; k++) {
-				if (getSideDotStatus(CheckSide.WEST, i, j + k) == DotStatus.NON) {
+				if (getSideDotStatus(CheckSide.WEST, i - k, j) == DotStatus.NON) {
 					break;
 				}
 				if (getSideTableStatus(CheckSide.WEST, i - k, j) == TableStatus.FINAL
@@ -168,7 +168,7 @@ public class OthelloPanel extends JPanel implements MouseListener {
 		if (getSideTableStatus(CheckSide.WEST, i, j) == TableStatus.NORMAL
 				|| getSideTableStatus(CheckSide.WEST, i, j) == TableStatus.ACTIVE) {
 			for (int k = 0; i + k < 8 && i > 0; k++) {
-				if (getSideDotStatus(CheckSide.EAST, i, j + k) == DotStatus.NON) {
+				if (getSideDotStatus(CheckSide.EAST, i + k, j) == DotStatus.NON) {
 					break;
 				}
 				if (getSideTableStatus(CheckSide.EAST, i + k, j) == TableStatus.FINAL
