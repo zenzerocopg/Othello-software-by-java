@@ -46,7 +46,7 @@ public class Dot extends Ellipse2D.Double {
 			if (dotStauts == DotStatus.BLACK )
 				//g2d.setColor(Color.BLACK);
 			try {
-				image = resizeImage.createResizedCopy(ImageIO.read(new File("nr-gear-bk.png")), 40, 40, false);
+				image = ResizeImage.createResizedCopy(ImageIO.read(new File("nr-gear-bk.png")), RADIUS, RADIUS, false);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -56,7 +56,7 @@ public class Dot extends Ellipse2D.Double {
 			if (dotStauts == DotStatus.WHITE)
 				//g2d.setColor(Color.WHITE);
 			try {
-				image = resizeImage.createResizedCopy(ImageIO.read(new File("nr-gear-wh.png")), 40, 40, false);
+				image = ResizeImage.createResizedCopy(ImageIO.read(new File("nr-gear-wh.png")), RADIUS, RADIUS, false);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

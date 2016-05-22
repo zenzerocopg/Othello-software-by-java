@@ -11,11 +11,5 @@ public class OthelloPanelV2 extends OthelloPanel {
 	public OthelloPanelV2() {
 		super();
 	}
-
 	
-	
-	
-	
-	
-
 }
