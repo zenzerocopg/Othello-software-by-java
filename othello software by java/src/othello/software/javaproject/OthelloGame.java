@@ -34,8 +34,10 @@ public class OthelloGame extends MyFrame {
 
 	// set component 
 	protected void createComponents() {
-		OthelloPanel othelloPanel = new OthelloPanel();
-		this.add(othelloPanel);
+		/*OthelloPanel othelloPanel = new OthelloPanel();
+		this.add(othelloPanel);*/
+		OthelloPanelV2 othelloPanelV2 = new OthelloPanelV2();
+		this.add(othelloPanelV2);
 	}
 
 } // end of class 
